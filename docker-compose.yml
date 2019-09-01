@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  investments:
+    build:
+      context: ./services/investments
+      dockerfile: Dockerfile
+    volumes:
+      - './services/investments:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_APP=project/__init__.py
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@investments-db:5432/investments_dev 
+      - DATABASE_TEST_URL=postgres://postgres:postgres@investments-db:5432/investments_test  
+    depends_on:  
+      - investments-db
+  
+  investments-db:
+    build:
+      context: ./services/investments/project/db
+      dockerfile: Dockerfile
+    ports:
+      - 5431:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
