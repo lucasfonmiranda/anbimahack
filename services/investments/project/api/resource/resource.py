@@ -5,8 +5,8 @@ from flask import request
 from project.api.models import Investments, Found, Clients, Contract
 from project import db
 from uuid import uuid4
-from project.api.utils.save_data import save_to, uploads_url
 import requests 
+# from project.api.utils.utils import create_document
 
 class CreateInvestment(Resource):
     def post(self):
@@ -67,3 +67,35 @@ class CreateClient(Resource):
         except ValueError:
             return ValueError, 500    
 
+# class CreateContract(Resource):
+#     def post(self):
+#         data = request.get_json()
+
+#         cedente_data = data['cedente']
+#         cessionario_data = data['cessionario']
+#         current_client = data['name']
+
+#         cedente = Investments.query.filter_by(name=cedente_data).first()
+#         cessionario = Investments.query.filter_by(name=cessionario_data).first()
+#         client = Clients.query.filter_by(name=current_client).first()
+
+#         data_cedente = {
+#             'data': {
+#                 [ced.to_json() for ced in cedente]
+#             }
+#         }
+
+#         data_cessionario = {
+#             'data': {
+#                 [ces.to_json() for ces in cessionario]
+#             }
+#         }
+
+#         data_client = {
+#             'data': {
+#                 [cli.to_json() for cli in client]
+#             }
+#         }
+
+#         document = create_document(data_cessionario, data_cedente, data_client)
+#         return {'message': 'success'}, 200
